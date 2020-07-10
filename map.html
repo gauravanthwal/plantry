@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <link rel="php" type="text/php" href="ajax.php">
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+<header>
+  <nav class="navbar navbar-light bg-white">
+  <a class="navbar-brand" href="index.php">
+    <img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+    Plant Doctor
+  </a>
+</nav>
+</header>
+
+<section class="p-5" style="background: #f5f5f5c9;">
+<div class="container bg-white">
+	<div class="row">
+    <div class="col-12 col-sm-8 col-md-9 ">
+      <?php
+include 'cms/conn.php';
+
+$p= $_GET["id"];
+$ad="cms/";
+$query="SELECT * FROM `plant_doctor_tab` WHERE p_id='$p' ";
+
+$data= mysqli_query($con,$query);
+$total= mysqli_num_rows($data);
+
+
+while ($result =mysqli_fetch_assoc($data)) {
+
+  ?>
+      <div class="p-4">
+      <?php   
+      echo "<h1 class='text-danger'>".$result['subject']."</h1>
+      <p id='border-bot'><label class='font-weight-bold pr-2'>Last Update:</label>".$result['time']."</p>
+      <p class='pera'>".$result['detail']."</p>
+  <img src=".$ad.$result['picsource']." style='width: 100%;'>
+ <div class='p-4'>
+      <h1 class='text-danger'>".$result['subject_2']."</h1>
+      <p id='border-bot'><label class='font-weight-bold pr-2'>Last Update:</label>".$result['time']."</p>
+      <p class='pera'>".$result['detail_2']."</p>
+  <img src=".$ad.$result['picsorce_2']." style='width: 100%;'>"?>
+    </div>
+<?php
+  }
+  ?>
+    </div>    
+   </div>
+    
+
+    
+    <div class="col-12 col-sm-4 col-md-3  ">
+      <div class="pt-4">
+      <h3 class="text-md-center text-danger p-2">Search Plant Dr.</h3>
+      <input class="form-control form-control-lg p-3" type="text" placeholder="SEARCH THIS WEBSITE..">
+
+      <h5 class="text-center pt-5 text-danger mb-5">ABOUT ME</h5>
+      <img src="img/3.jpg " style="width: 100%;height: 230px;border-radius: 50%;margin: 0 10px;">
+      <p class="pera font-weight-bold pt-2">Hi! I'm Erin. I blog here at Clever Bloom. I focus on all things houseplants including Plant Care, DIYs, and Decor. Thanks for being here!</p>
+    </div>
+    </div>
+  </div>
+</div>
+
+  <div class='cmt container'>
+  <h1 class='text-center pt-3 display-4 font-weight-bold text-secondary' id='border-bot'>COMMENTS</h1>
+  <div>
+  <div class='row'><div class='col-1 col-sm-3 col-md-1'><i class='fas fa-user-tie' style='font-size:58px;'></i></div><div class='col-11 col-sm-9 col-md-11 bg-white'>
+    <?php
+include 'cms/conn.php';
+
+$query="SELECT * FROM `comment` ";
+
+$data= mysqli_query($con,$query);
+$total= mysqli_num_rows($data);
+
+
+while ($result =mysqli_fetch_assoc($data)) {
+
+  ?>
+ <?php echo"<h3 class='text-secondary'>".$result['name']."</h3>
+    <p>".$result['time']."</p>
+
+  <p class='pera'>".$result['comment']."</p>";
+}
+?>
+
+  </div>
+    </div>
+  
+</div>
+  <h1 class="pt-3 text-warning">LEAVE A REPLY</h1>
+  <p class="pera font-weight-bold">Your email address will not be published. Required fields are marked *</p>
+  <form method="POST" action="">
+    <div class="form-group">
+    <label for="exampleFormControlTextarea1">Comment:</label>
+    <textarea class="form-control" name="comment" rows="3"></textarea>
+    <label>Name:</label>
+     <input type="text" class="form-control" name="name" placeholder="Enter your name**">
+    <label for="exampleFormControlInput1">Email address</label>
+    <input type="email" class="form-control" name="email" placeholder="name@example.com">
+    <div class="pt-5 text-center">
+    <button type="submit" name="send" class="btn btn-lg btn-warning text-white p-3">POST COMMENT</button></div>
+  </div>
+  </div>
+  </form>
+</div>
+</section>
+
+
+<?php include 'include/footer.php'; ?>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+<?php
+include "cms/conn.php";
+if (isset($_POST['send'])) {
+  
+  $comment=$_POST["comment"];
+  $name=$_POST["name"];
+  $email=$_POST["email"];
+
+  $query= "INSERT INTO `comment`(`id`,`comment`,`name`,`email`) VALUES ('$p','$comment','$name','$email')";
+  $data= mysqli_query($con,$query);
+}
+  
+
+?>
+

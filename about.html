@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>sweta about page</title>
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	 <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+ <link href="https://fonts.googleapis.com/css2?family=MuseoModerno&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="headers">
+  <a class="navbar-brand" href="index.php"><img class="logo" src="img/logo.png"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav m-auto">
+      <li class="nav-item ">
+        <a class="nav-link" href="index.php">HOME</a>
+      </li>
+      <li class="nav-item active navbar-light">
+        <a class="nav-link bg-danger" href="#">ABOUT</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          SHOP
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="CONTACT.php">CONTACT US</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+	</header>
+
+
+<section>
+	<div class="jumbotron jumbotron-fluid">
+		<div class="container">
+			<h1 class="display-4">SHWETA KALA :)</h1>
+			<p class="lead">I am a graduate of Horticulture and post graduate in Agriculture with major in Plant Pathology. Here i write everything about the plants and plant diseases and whatever i have acquired during 6 years of my studies in this field. I hope this will be useful for many plant lovers out there. Sharing my expertise means inviting a new conversation. I may also learn something in the process as well.</p>
+		</div>
+	</div>
+	<div class="container bg-light">
+		<h1 class="text-center display-3">About Us</h1>
+		<h5 class="text-center pb-5">The Landscaper has been in business since 1978</h5>
+		<div class="row">
+			<?php
+  include 'cms/conn.php';
+  $ad="cms/";
+  $query = "SELECT * FROM `about_cms` getLastRecord ORDER BY id DESC LIMIT 1";
+$data= mysqli_query($con,$query);
+$total= mysqli_num_rows($data);
+
+
+while ($result =mysqli_fetch_assoc($data)) {
+	?>
+
+			<div class="col-sm-8">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Special title treatment</h5>
+						
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="card">
+									<img src="img/2.jpg" style="height: 250px">
+								</div>
+								<div class="pt-4">
+									<a href="CONTACT.php" class="font-weight-bold text-success">GET IN TOUCH></a>
+								</div>
+							</div>
+							<div class="col-sm-8">
+								<div>
+							
+									<div class='card-body'>
+								<?php  echo"		<h3 id='border-bot' class='text-success display-4'><span class='text-dark'>A</span>
+						 					".$result['subject']."</h3>
+										<h6>about us the plantetion growing...</h6>
+										<p class='pera'>".$result['details1']."</p>
+										
+									</div>
+								</div>
+							</div>
+							<p class='pera p-4'>".$result['details2']."</p>
+
+							<p class='pera p-4'>".$result['details3']."</p>";?>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-sm-4">
+				<div class="card">
+					<div class="card-body">
+						<h4>SEARCH Dr. Shweta </h4>
+						<div class="input-group mb-3">
+							<input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+							<div class="input-group-append">
+								<button class="btn btn-outline-secondary" type="button">Button</button>
+							</div>
+						</div>
+						<?php 
+					echo "<div class='addsence pt-4'>
+							<img src=".$ad.$result['pic_sorce']." style='width: 100%'>
+							<p>".$result['adddetails']."</p>
+						</div>
+				<div class='addsence pt-4'>
+							<img src=".$ad.$result['pic_Sorce_2']." style='width:100%'>
+						<p>".$result['adddetails2']."</p>
+						</div>"; }; ?>	
+					</div>
+				</div>
+			</div>
+		</div>
+			</div>
+</section>
+
+
+<?php include 'include/footer.php' ?>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>

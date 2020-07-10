@@ -1,0 +1,65 @@
+<?php
+$con =mysqli_connect("localhost","root","","plant_doctor");
+$limit_per_page = 16;
+$page = "";
+if(isset($_POST["page_no"])){
+$page = $_POST["page_no"];
+}else{
+$page = 1;
+}
+$offset= ($page-1)*$limit_per_page;
+$sql= "SELECT * FROM plant_doctor_tab LIMIT {$offset},{$limit_per_page}";
+$result = mysqli_query($con,$sql) or die("query unsuccessfull.");
+$output="";
+if(mysqli_num_rows($result) > 0){
+$output .= '<div class="row cart">';
+	while ($row = mysqli_fetch_assoc($result)) {
+	
+	$output .= "<div class='col-12 col-sm-6 col-md-4 col-xl-4 pt-5 mb-3'>
+			<div class='card box p-2 p-3' style='width: 22rem;'>
+				<img class='card-img-top image' src='cms/{$row['picsource']}' alt='Card image cap'>
+						<div class=	'card-body box-body' >
+									<h5 class='card-title'>{$row['subject']}</h5>
+									<small class='text-muted'>Last updated {$row['time']}</small>
+						</div>
+						<ul class='list-group list-group-flush'>
+									<li class='list-group-item'id='post_by'>Post by <label class='font-weight-bold'id='nam'>{$row['name']}</label></li>
+						</ul>
+						<div class='card-body'>
+									<a href='map.php?id={$row['p_id']}' class='card-link'>See More</a>
+									
+				
+						</div>
+				</div>
+
+			</div>";
+	}
+$output.="</div>";
+
+$sql_total= "SELECT * FROM plant_doctor_tab";
+
+$records= mysqli_query($con,$sql_total);
+
+$total_record = mysqli_num_rows($records);
+
+$total_pages= ceil($total_record/$limit_per_page);
+
+$output .='<ul class="pagination pagination-lg justify-content-center pt-4">';
+		for ($i=1; $i <= $total_pages; $i++) {
+if($i==$page){
+	$class_name= "active bg-success text-white";
+}else{
+	$class_name="";
+}
+			$output .= "<li class='font-weight-bold pl-2'><a class='{$class_name} page-link' id='{$i}' href='' target='_blank'>{$i}</a></li>";
+		}
+	$output .='</ul>';
+
+echo $output;
+}
+else
+{
+	echo "no record found";
+}	
+
+?>  
